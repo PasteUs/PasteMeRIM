@@ -23,6 +23,10 @@ def get_filter_column(raw_df: pd.DataFrame) -> pd.Series:
 
 def main():
     df = pd.read_csv('permanents.csv')
+
+    df = df[df['key'] != 12643]
+    df = df[df['key'] != 12648]
+
     df[get_filter_column(df)].to_csv('filtered_permanent.csv', index=False)
 
 
