@@ -133,3 +133,6 @@ dmypy.json
 
 # Datasets
 dataset
+
+# macOS
+.DS_Store
