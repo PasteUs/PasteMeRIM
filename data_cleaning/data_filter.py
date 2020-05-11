@@ -21,13 +21,26 @@ def get_filter_column(raw_df: pd.DataFrame) -> pd.Series:
     )
 
 
+def erase_by_key(raw_df: pd.DataFrame, key_list: list) -> pd.DataFrame:
+    df = raw_df.copy()
+
+    for key in key_list:
+        df = df[df['key'] != key]
+
+    return df
+
+
 def main():
     df = pd.read_csv('permanents.csv')
 
-    df = df[df['key'] != 12643]
-    df = df[df['key'] != 12648]
+    df = erase_by_key(df, [12643, 12648, 25149, 25150])
 
-    df[get_filter_column(df)].to_csv('filtered_permanent.csv', index=False)
+    df = df[get_filter_column(df)]
+
+    result_df = pd.DataFrame(columns=['label'])
+    result_df['text'] = df['content']
+
+    result_df[['text', 'label']].fillna('Unlabeled').to_csv('filtered_permanent.csv', index=False)
 
 
 if __name__ == '__main__':

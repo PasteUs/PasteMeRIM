@@ -12,6 +12,8 @@ SOURCE_FILE_NAME = 'filtered_permanent.csv'
 
 
 def write_chunk(df: pd.DataFrame, lower_bound: int, upper_bound: int, file_count: int) -> None:
+    if upper_bound == lower_bound:
+        raise ValueError('lower_bound = upper_bound = {}, key = {}'.format(lower_bound, df['key'][lower_bound]))
     file_path = '{}/{}.{}.csv'.format(SUB_DIR_NAME, FILE_PREFIX, file_count)
     df[lower_bound: upper_bound].to_csv(file_path, index=False)
 
@@ -27,7 +29,7 @@ def get_bound(df: pd.DataFrame, lower_bound: int, length: int, chunk_size: int) 
     left, right, ans = lower_bound, length, lower_bound
     while left <= right:
         mid = left + right >> 1
-        if check_size(df, left, right) <= chunk_size * 1024:
+        if check_size(df, lower_bound, mid) <= chunk_size * 1024:
             ans = mid
             left = mid + 1
         else:
@@ -36,7 +38,7 @@ def get_bound(df: pd.DataFrame, lower_bound: int, length: int, chunk_size: int) 
     return ans
 
 
-def split_df(df: pd.DataFrame, chunk_size: int = 1024) -> None:
+def split_df(df: pd.DataFrame, chunk_size: int = 768) -> None:
     """
     将 df 分解为若干个小于 file_size 的 chunk
     :param df: DataFrame
