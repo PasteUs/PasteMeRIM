@@ -40,7 +40,7 @@ def main():
     result_df = pd.DataFrame(columns=['label'])
     result_df['text'] = df['content']
 
-    result_df[['text', 'label']].fillna('Unlabeled').to_csv('filtered_permanent.csv', index=False)
+    result_df[['text', 'label']].fillna('normal').to_csv('filtered_permanent.csv', index=False)
 
 
 if __name__ == '__main__':
