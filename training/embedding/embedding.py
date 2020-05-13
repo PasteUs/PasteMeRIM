@@ -47,5 +47,6 @@ def get_embedding_layer(embedding_weights: np.ndarray, max_length: int) -> keras
         output_dim=embedding_weights.shape[1],
         weights=[embedding_weights],
         input_length=max_length,
+        mask_zero=True,
         trainable=False
     )

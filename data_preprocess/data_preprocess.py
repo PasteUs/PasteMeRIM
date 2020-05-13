@@ -5,7 +5,6 @@
 import jieba
 import re
 import typing
-import numpy as np
 import pandas as pd
 from zhon import hanzi
 
@@ -42,7 +41,7 @@ def tokenize(raw_df: pd.DataFrame) -> pd.DataFrame:
 
 def tokens_to_ids(raw_df: pd.DataFrame, word2idx: typing.Dict[str, int]) -> pd.DataFrame:
     df = raw_df.copy()
-    df['text'] = df['tokens'].apply(lambda x: np.array([word2idx.get(each, 0) for each in x]))
+    df['text'] = df['tokens'].apply(lambda x: [word2idx.get(each, 0) for each in x])
     return df
 
 
