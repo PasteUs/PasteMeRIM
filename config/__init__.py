@@ -1,4 +1,4 @@
-TEST_MODE = False  # Using test file or not
+TEST_MODE = True  # Using test file or not
 MAX_LENGTH = 128  # Sequence padding length
 EPOCHS = 1
 BATCH_SIZE = 32
