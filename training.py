@@ -1,30 +1,12 @@
 import os
 import data_preprocess
 import pandas as pd
+from config import *
 from util import timer
 from training import embedding
 from tensorflow import keras
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Disables the warning, doesn't enable AVX/FMA
-
-TEST_MODE = False  # Using test file or not
-MAX_LENGTH = 128  # Sequence padding length
-EPOCHS = 4
-BATCH_SIZE = 64
-
-
-def get_file_path(test_mode: bool) -> (str, str):
-    if test_mode:
-        word2_vec_test_path = 'resources/word2vec/sgns.test.word'
-        dataset_test_path = 'resources/dataset/permanent_chinese_only_with_label.test.csv'
-        return word2_vec_test_path, dataset_test_path
-    else:
-        word2_vec_prod_path = 'resources/word2vec/sgns.weibo.word'
-        dataset_prod_path = 'resources/dataset/permanent_chinese_only_with_label.csv'
-        return word2_vec_prod_path, dataset_prod_path
-
-
-WORD2VEC_PATH, DATASET_PATH = get_file_path(TEST_MODE)
 
 
 def main():
@@ -48,19 +30,23 @@ def main():
     train_df = data_preprocess.balanced_sampling(train_df)
 
     model = keras.Sequential([
-        embedding_layer,
         keras.layers.Bidirectional(keras.layers.LSTM(64)),
         keras.layers.Dense(64, activation=keras.activations.relu),
         keras.layers.Dense(1)
     ])
 
-    model.compile(
+    model_with_embedding = keras.Sequential([
+        embedding_layer,
+        model
+    ])
+
+    model_with_embedding.compile(
         loss=keras.losses.BinaryCrossentropy(from_logits=True),
         optimizer=keras.optimizers.Adam(1e-4),
         metrics=['accuracy']
     )
 
-    model.fit(
+    model_with_embedding.fit(
         x=keras.preprocessing.sequence.pad_sequences(train_df['text'].values, maxlen=MAX_LENGTH),
         y=train_df['label'],
         validation_data=(
@@ -70,6 +56,8 @@ def main():
         epochs=EPOCHS,
         batch_size=BATCH_SIZE
     )
+
+    model.save(MODEL_SAVING_PATH)
 
 
 if __name__ == '__main__':
