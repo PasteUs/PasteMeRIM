@@ -8,6 +8,6 @@ def main():
 
 
 if __name__ == '__main__':
-    os.chdir('../dataset')
+    os.chdir('../resources/dataset')
 
     main()

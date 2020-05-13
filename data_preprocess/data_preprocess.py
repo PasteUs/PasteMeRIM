@@ -4,6 +4,8 @@
 
 import jieba
 import re
+import typing
+import numpy as np
 import pandas as pd
 from zhon import hanzi
 
@@ -38,9 +40,15 @@ def tokenize(raw_df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def tokens_to_ids(raw_df: pd.DataFrame, word2idx: typing.Dict[str, int]) -> pd.DataFrame:
+    df = raw_df.copy()
+    df['text'] = df['tokens'].apply(lambda x: np.array([word2idx.get(each, 0) for each in x]))
+    return df
+
+
 def balanced_sampling(raw_df: pd.DataFrame, down_sampling: bool = False) -> pd.DataFrame:
     """
-    平衡采样
+    上采样或下采样，默认上采样
     :param raw_df: df with column named 'label'
     :param down_sampling: using down sampling
     :return: balanced df by up sampling

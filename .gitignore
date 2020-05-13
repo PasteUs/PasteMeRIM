@@ -132,7 +132,10 @@ dmypy.json
 .idea
 
 # Datasets
-dataset
+resources/dataset
+
+# Word2vec
+resources/word2vec
 
 # macOS
 .DS_Store
