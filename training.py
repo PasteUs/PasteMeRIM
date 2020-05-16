@@ -57,7 +57,7 @@ def main():
         batch_size=BATCH_SIZE
     )
 
-    model.save(MODEL_SAVING_PATH)
+    model_with_embedding.save(MODEL_SAVING_PATH)
 
 
 if __name__ == '__main__':

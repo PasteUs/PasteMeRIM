@@ -2,7 +2,7 @@ TEST_MODE = True  # Using test file or not
 MAX_LENGTH = 128  # Sequence padding length
 EPOCHS = 1
 BATCH_SIZE = 32
-MODEL_SAVING_PATH = 'resources/saved_models/model'
+MODEL_SAVING_PATH = 'resources/saved_models/PasteMeRIM'
 
 
 def get_file_path(test_mode: bool) -> (str, str):
