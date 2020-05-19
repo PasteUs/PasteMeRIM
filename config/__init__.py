@@ -1,8 +1,9 @@
-TEST_MODE = True  # Using test file or not
-MAX_LENGTH = 128  # Sequence padding length
-EPOCHS = 1
+TEST_MODE = False  # Using test file or not
+MAX_LENGTH = 32  # Sequence padding length
+EPOCHS = 8
 BATCH_SIZE = 32
 MODEL_SAVING_PATH = 'resources/saved_models/PasteMeRIM'
+WORD2IDX_SAVING_PATH = 'resources/word2idx/word2idx.json'
 
 
 def get_file_path(test_mode: bool) -> (str, str):

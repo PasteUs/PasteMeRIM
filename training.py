@@ -1,4 +1,5 @@
 import os
+import json
 import data_preprocess
 import pandas as pd
 from config import *
@@ -13,6 +14,9 @@ def main():
     with timer('load_word2vec'):
         embedding_weights, word2idx = embedding.parse_word2vec(file_path=WORD2VEC_PATH)
         embedding_layer = embedding.get_embedding_layer(embedding_weights, MAX_LENGTH)
+
+        with open(WORD2IDX_SAVING_PATH, 'w') as file:
+            json.dump(word2idx, file)
 
     with timer('read_csv'):
         df = pd.read_csv(DATASET_PATH)
