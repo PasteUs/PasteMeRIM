@@ -25,8 +25,9 @@ class MyModelTestCase(unittest.TestCase):
         df = df_preprocess(df)
         model: keras.Sequential = keras.models.load_model('resources/saved_models/PasteMeRIM')
         input_data = keras.preprocessing.sequence.pad_sequences(df['text'].values, maxlen=MAX_LENGTH)
-        df['y_hat'] = model.predict(input_data)
-        df.to_csv('test_result.csv', index=False)
+        df['y_hat_num'] = model.predict(input_data)
+        df['y_hat'] = model.predict_classes(input_data)
+        df[['text', 'tokens', 'label', 'y_hat', 'y_hat_num']].to_csv('resources/tmp/test_result.csv', index=False)
         self.assertTrue(True)
 
 

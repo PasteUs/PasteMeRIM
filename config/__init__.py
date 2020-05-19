@@ -1,5 +1,5 @@
 TEST_MODE = False  # Using test file or not
-MAX_LENGTH = 32  # Sequence padding length
+MAX_LENGTH = 256  # Sequence padding length
 EPOCHS = 8
 BATCH_SIZE = 32
 MODEL_SAVING_PATH = 'resources/saved_models/PasteMeRIM'
